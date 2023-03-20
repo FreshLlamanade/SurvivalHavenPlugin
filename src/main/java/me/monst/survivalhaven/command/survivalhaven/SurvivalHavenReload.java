@@ -1,12 +1,13 @@
 package me.monst.survivalhaven.command.survivalhaven;
 
-import me.monst.pluginutil.command.Args;
 import me.monst.pluginutil.command.Executable;
 import me.monst.pluginutil.command.Permission;
 import me.monst.survivalhaven.SurvivalHavenPlugin;
 import me.monst.survivalhaven.command.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 public class SurvivalHavenReload implements Executable {
     
@@ -37,7 +38,7 @@ public class SurvivalHavenReload implements Executable {
     }
     
     @Override
-    public void execute(CommandSender sender, Args args) {
+    public void execute(CommandSender sender, List<String> args) {
         sender.sendMessage(ChatColor.YELLOW + "Reloading plugin...");
         plugin.reload();
     }

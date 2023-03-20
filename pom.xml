@@ -6,7 +6,7 @@
 
     <groupId>me.monst</groupId>
     <artifactId>survival-haven-plugin</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -50,12 +50,20 @@
         </dependency>
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-snapshots</id>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
+        <finalName>SurvivalHavenPlugin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.4.2-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -63,6 +71,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
                                     <pattern>me.monst.pluginutil</pattern>
@@ -78,8 +87,28 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>17</release>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>target/SurvivalHavenPlugin.jar</sourceFile>
+                            <destinationFile>C:\Users\Michael\Desktop\BuildTools\plugins\SurvivalHavenPlugin.jar</destinationFile>
+                            <overWrite>true</overWrite>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

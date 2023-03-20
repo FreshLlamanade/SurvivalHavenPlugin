@@ -1,10 +1,11 @@
 package me.monst.survivalhaven.command.breadcrumbs;
 
-import me.monst.pluginutil.command.Args;
 import me.monst.pluginutil.command.PlayerExecutable;
 import me.monst.survivalhaven.particle.ParticleService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 class BreadcrumbsStop implements PlayerExecutable {
     
@@ -30,7 +31,7 @@ class BreadcrumbsStop implements PlayerExecutable {
     }
     
     @Override
-    public void execute(Player player, Args args) {
+    public void execute(Player player, List<String> args) {
         player.sendMessage(ChatColor.YELLOW + "Breadcrumbs cleared.");
         particleService.removeBreadcrumbs(player);
     }

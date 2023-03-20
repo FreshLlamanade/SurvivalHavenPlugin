@@ -1,14 +1,12 @@
 package me.monst.survivalhaven.particle;
 
 import me.monst.survivalhaven.SurvivalHavenPlugin;
-import me.monst.survivalhaven.configuration.values.MaxBreadcrumbs;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ParticleService {
@@ -16,23 +14,11 @@ public class ParticleService {
     private final Plugin plugin;
     private final Map<UUID, List<ParticleGuide>> playerGuideMap;
     private final Map<UUID, BreadcrumbsTrail> playerBreadcrumbsMap;
-    private final MaxBreadcrumbs maxBreadcrumbs;
-    private final Color[] colors = new Color[] {
-            Color.LIME,
-            Color.RED,
-            Color.BLUE,
-            Color.BLACK,
-            Color.WHITE,
-            Color.YELLOW,
-            Color.ORANGE,
-            Color.PURPLE
-    };
     
     public ParticleService(SurvivalHavenPlugin plugin) {
         this.plugin = plugin;
         this.playerGuideMap = new HashMap<>();
         this.playerBreadcrumbsMap = new HashMap<>();
-        this.maxBreadcrumbs = plugin.config().maxBreadcrumbs;
     }
     
     public BreadcrumbsTrail getBreadcrumbs(Player player) {
@@ -40,8 +26,14 @@ public class ParticleService {
     }
     
     public void addBreadcrumbs(Player player) {
+        addBreadcrumbs(player, ParticleColors.random());
+    }
+    
+    public void addBreadcrumbs(Player player, Color color) {
         removeBreadcrumbs(player);
-        addGuide(player, color -> new BreadcrumbsTrail(plugin, maxBreadcrumbs, player, color));
+        BreadcrumbsTrail breadcrumbs = new BreadcrumbsTrail(plugin, player, color);
+        playerBreadcrumbsMap.put(player.getUniqueId(), breadcrumbs);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, breadcrumbs);
     }
     
     public void removeBreadcrumbs(Player player) {
@@ -51,20 +43,26 @@ public class ParticleService {
     }
     
     public void addGuide(Player player, Location target) {
-        addGuide(player, color -> new FixedLocationParticleGuide(plugin, player, target.clone(), color));
+        addGuide(player, new FixedLocationParticleGuide(plugin, player, target.clone(), ParticleColors.random()));
+    }
+    
+    public void addGuide(Player player, Location target, Color color) {
+        addGuide(player, new FixedLocationParticleGuide(plugin, player, target.clone(), color));
     }
     
     public void addGuide(Player player, Player target) {
         Supplier<Location> targetLocationSupplier = () -> target.isOnline() ? target.getLocation() : null;
-        addGuide(player, color -> new MovingTargetParticleGuide(plugin, player, targetLocationSupplier, color));
+        addGuide(player, new MovingTargetParticleGuide(plugin, player, targetLocationSupplier, ParticleColors.random()));
     }
     
-    private void addGuide(Player player, Function<Color, ParticleGuide> guideSupplier) {
+    public void addGuide(Player player, Player target, Color color) {
+        Supplier<Location> targetLocationSupplier = () -> target.isOnline() ? target.getLocation() : null;
+        addGuide(player, new MovingTargetParticleGuide(plugin, player, targetLocationSupplier, color));
+    }
+    
+    private void addGuide(Player player, ParticleGuide guide) {
         List<ParticleGuide> guides = playerGuideMap.computeIfAbsent(player.getUniqueId(), k -> new LinkedList<>());
         guides.removeIf(ParticleGuide::isStopped);
-        ParticleGuide guide = guideSupplier.apply(colors[guides.size() % colors.length]);
-        if (guide instanceof BreadcrumbsTrail)
-            playerBreadcrumbsMap.put(player.getUniqueId(), (BreadcrumbsTrail) guide);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, guide);
         guides.add(guide);
     }

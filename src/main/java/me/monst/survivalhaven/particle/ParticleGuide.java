@@ -21,7 +21,7 @@ abstract class ParticleGuide implements Runnable {
     private static final int SLEEP_TIME_MS = 1500;
     
     private final Plugin plugin;
-    private final Player player;
+    protected final Player player;
     private final Particle.DustOptions dustOptions;
     
     private boolean stopped;

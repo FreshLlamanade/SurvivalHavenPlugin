@@ -1,4 +1,4 @@
-package me.monst.survivalhaven.slab;
+package me.monst.survivalhaven.listener;
 
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.GameMode;

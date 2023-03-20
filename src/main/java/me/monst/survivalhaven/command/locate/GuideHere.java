@@ -1,4 +1,4 @@
-package me.monst.survivalhaven.command.breadcrumbs;
+package me.monst.survivalhaven.command.locate;
 
 import me.monst.pluginutil.command.CommandExecutionException;
 import me.monst.pluginutil.command.PlayerExecutable;
@@ -9,36 +9,36 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-class BreadcrumbsStart implements PlayerExecutable {
+class GuideHere implements PlayerExecutable {
     
     private final ParticleService particleService;
     
-    BreadcrumbsStart(ParticleService particleService) {
+    GuideHere(ParticleService particleService) {
         this.particleService = particleService;
     }
     
     @Override
     public String getName() {
-        return "start";
+        return "here";
     }
     
     @Override
     public String getDescription() {
-        return "Leave a trail of particles behind you to guide you back.";
+        return "Guides you back to your current location.";
     }
     
     @Override
     public String getUsage() {
-        return "/breadcrumbs start";
+        return "/guide here [color]";
     }
     
     @Override
     public void execute(Player player, List<String> args) throws CommandExecutionException {
-        player.sendMessage(ChatColor.YELLOW + "Starting breadcrumbs...");
+        player.sendMessage(ChatColor.YELLOW + "Guiding you to your current location...");
         if (args.isEmpty())
-            particleService.addBreadcrumbs(player);
+            particleService.addGuide(player, player.getLocation());
         else
-            particleService.addBreadcrumbs(player, ParticleColors.get(args.get(0)));
+            particleService.addGuide(player, player.getLocation(), ParticleColors.get(args.get(0)));
     }
     
     @Override

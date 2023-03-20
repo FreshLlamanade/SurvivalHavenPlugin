@@ -5,16 +5,20 @@ import org.bukkit.command.CommandSender;
 
 public enum Permissions implements Permission {
     
-    LOCATE,
-    LOCATE_DEATH,
-    LOCATE_PLAYER,
-    LOCATE_HOME,
+    GUIDE,
+    GUIDE_DEATH,
+    GUIDE_PLAYER,
+    GUIDE_HOME,
     BREADCRUMBS,
     ADMIN;
     
     private final String perm;
     Permissions() {
         this.perm = "survivalhaven." + name().toLowerCase().replace('_', '.');
+    }
+    
+    public String getPerm() {
+        return perm;
     }
     
     @Override

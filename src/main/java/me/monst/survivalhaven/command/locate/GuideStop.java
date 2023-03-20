@@ -1,38 +1,39 @@
 package me.monst.survivalhaven.command.locate;
 
-import me.monst.pluginutil.command.Args;
 import me.monst.pluginutil.command.PlayerExecutable;
 import me.monst.survivalhaven.particle.ParticleService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-class LocateHere implements PlayerExecutable {
+import java.util.List;
+
+class GuideStop implements PlayerExecutable {
     
     private final ParticleService particleService;
     
-    LocateHere(ParticleService particleService) {
+    GuideStop(ParticleService particleService) {
         this.particleService = particleService;
     }
     
     @Override
     public String getName() {
-        return "here";
+        return "stop";
     }
     
     @Override
     public String getDescription() {
-        return "Leads you to your current location.";
+        return "Stops all particle guides.";
     }
     
     @Override
     public String getUsage() {
-        return "/locate here";
+        return "/guide stop";
     }
     
     @Override
-    public void execute(Player player, Args args) {
-        player.sendMessage(ChatColor.YELLOW + "Locating your current location...");
-        particleService.addGuide(player, player.getLocation());
+    public void execute(Player player, List<String> args) {
+        player.sendMessage(ChatColor.YELLOW + "Guides cleared.");
+        particleService.removeGuides(player);
     }
     
 }

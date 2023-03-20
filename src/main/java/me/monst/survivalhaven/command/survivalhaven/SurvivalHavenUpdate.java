@@ -1,9 +1,12 @@
 package me.monst.survivalhaven.command.survivalhaven;
 
-import me.monst.pluginutil.command.Args;
-import me.monst.pluginutil.command.CommandException;
+import me.monst.pluginutil.command.CommandExecutionException;
 import me.monst.pluginutil.command.Executable;
+import me.monst.pluginutil.command.Permission;
+import me.monst.survivalhaven.command.Permissions;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 public class SurvivalHavenUpdate implements Executable {
     
@@ -23,8 +26,13 @@ public class SurvivalHavenUpdate implements Executable {
     }
     
     @Override
-    public void execute(CommandSender commandSender, Args args) throws CommandException {
-        throw new CommandException("Not implemented yet!");
+    public Permission getPermission() {
+        return Permissions.ADMIN.or(Permission.OP);
+    }
+    
+    @Override
+    public void execute(CommandSender commandSender, List<String> args) throws CommandExecutionException {
+        throw new CommandExecutionException("Not implemented yet!");
     }
     
 }

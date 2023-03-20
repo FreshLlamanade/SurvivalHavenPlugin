@@ -21,7 +21,7 @@ public class FixedLocationParticleGuide extends ParticleGuide {
     @Override
     void show() {
         // Cannot show guide to a target in a different world
-        if (differentWorlds(getPlayerWorld(), target.getWorld())) {
+        if (differentWorlds(player.getWorld(), target.getWorld())) {
             stop();
             return;
         }

@@ -4,6 +4,7 @@ import me.monst.pluginutil.command.Executable;
 import me.monst.pluginutil.command.TopLevelDelegator;
 import me.monst.survivalhaven.SurvivalHavenPlugin;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,10 +14,13 @@ public class SurvivalHavenCommand implements TopLevelDelegator {
     private final Map<String, Executable> subCommands;
     
     public SurvivalHavenCommand(SurvivalHavenPlugin plugin) {
-        this.subCommands = Stream.of(
+        this.subCommands = new LinkedHashMap<>();
+        Stream.of(
+                new SurvivalHavenGitHub(),
                 new SurvivalHavenReload(plugin),
-                new SurvivalHavenGitHub()
-        ).collect(Collectors.toMap(Executable::getName, subCommand -> subCommand));
+                new SurvivalHavenUpdate(),
+                new SurvivalHavenConfigure(plugin)
+        ).forEach(subCommand -> subCommands.put(subCommand.getName(), subCommand));
     }
     
     @Override
@@ -31,12 +35,12 @@ public class SurvivalHavenCommand implements TopLevelDelegator {
     
     @Override
     public String getUsage() {
-        return "/survivalhaven";
+        return "/survivalhaven <reload|update|github>";
     }
     
     @Override
     public Map<String, Executable> getSubCommands() {
-        return null;
+        return subCommands;
     }
     
 }
