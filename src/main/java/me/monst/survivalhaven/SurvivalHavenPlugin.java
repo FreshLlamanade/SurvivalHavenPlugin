@@ -2,6 +2,9 @@ package me.monst.survivalhaven;
 
 import com.earth2me.essentials.Essentials;
 import me.monst.pluginutil.command.CommandRegisterService;
+import me.monst.pluginutil.log.Debuggable;
+import me.monst.pluginutil.log.Debugger;
+import me.monst.pluginutil.log.PluginLogger;
 import me.monst.survivalhaven.command.survivalhaven.SurvivalHavenCommand;
 import me.monst.survivalhaven.configuration.Configuration;
 import me.monst.survivalhaven.listener.DeathListener;
@@ -13,8 +16,9 @@ import me.monst.survivalhaven.listener.SlabBreakListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SurvivalHavenPlugin extends JavaPlugin {
+public class SurvivalHavenPlugin extends JavaPlugin implements Debuggable {
     
+    private final PluginLogger logger = PluginLogger.of(this);
     private Configuration configuration;
     private ParticleService particleService;
     private Essentials essentials;
@@ -22,6 +26,7 @@ public class SurvivalHavenPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         this.configuration = new Configuration(this);
+        log().debug("Loaded configuration.");
     }
     
     @Override
@@ -60,6 +65,11 @@ public class SurvivalHavenPlugin extends JavaPlugin {
     
     public Configuration config() {
         return configuration;
+    }
+    
+    @Override
+    public PluginLogger log() {
+        return logger;
     }
     
 }
