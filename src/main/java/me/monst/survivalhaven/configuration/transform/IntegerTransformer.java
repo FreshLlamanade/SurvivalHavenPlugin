@@ -11,7 +11,7 @@ public class IntegerTransformer implements Transformer<Integer> {
     public Integer parse(String input) throws ArgumentParseException {
         try {
             return Integer.parseInt(input);
-        } catch (ArithmeticException e) {
+        } catch (NumberFormatException e) {
             throw new ArgumentParseException("'" + input + "' is not an integer.");
         }
     }
