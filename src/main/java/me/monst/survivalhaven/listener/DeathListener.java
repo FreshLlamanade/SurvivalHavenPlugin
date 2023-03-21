@@ -1,7 +1,7 @@
 package me.monst.survivalhaven.listener;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,13 +11,10 @@ public class DeathListener implements Listener {
     
     @EventHandler(priority = EventPriority.MONITOR)
     private void coordinatesOnDeath(PlayerDeathEvent e) {
-        Location loc = e.getEntity().getLocation();
-        Component deathMessage = e.deathMessage();
-        if (deathMessage == null)
-            return;
+        Block block = e.getEntity().getLocation().getBlock();
         Component deathCoords = Component.text(
-                "You died at " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ()
-                        + " in '" + loc.getWorld().getName() + "'.");
+                "You died at " + block.getX() + ", " + block.getY() + ", " + block.getZ()
+                        + " in '" + block.getWorld().getName() + "'.");
         e.getPlayer().sendMessage(deathCoords);
     }
     
