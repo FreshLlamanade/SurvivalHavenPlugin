@@ -1,9 +1,9 @@
 package me.monst.survivalhaven.particle;
 
+import me.monst.survivalhaven.SurvivalHavenPlugin;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import java.util.function.Supplier;
@@ -20,7 +20,7 @@ public class MovingTargetParticleGuide extends ParticleGuide {
     private final Supplier<Location> target;
     private int timesSinceTargetLastSeen = 0;
     
-    MovingTargetParticleGuide(Plugin plugin, Player player, Supplier<Location> target, Color color) {
+    MovingTargetParticleGuide(SurvivalHavenPlugin plugin, Player player, Supplier<Location> target, Color color) {
         super(plugin, player, color);
         this.target = target;
     }
@@ -29,7 +29,7 @@ public class MovingTargetParticleGuide extends ParticleGuide {
     void show() {
         // Get the location where the player was initially standing
         Location startLocation = getPlayerLocation();
-        for (int multiplier = 1; multiplier <= GUIDE_LENGTH; multiplier++) {
+        for (int multiplier = 1; multiplier <= guides.length.get(); multiplier++) {
             Location currentTargetLocation = this.target.get(); // Get the current target location
             if (currentTargetLocation == null || differentWorlds(startLocation.getWorld(), currentTargetLocation.getWorld())) {
                 // Target is either in a different world or has completely disappeared, count up to automatically disable
@@ -38,7 +38,7 @@ public class MovingTargetParticleGuide extends ParticleGuide {
                 return;
             }
             timesSinceTargetLastSeen = 0;
-            if (startLocation.distance(currentTargetLocation) <= GUIDE_LENGTH) {
+            if (startLocation.distance(currentTargetLocation) <= guides.length.get()) {
                 // If the player is within range, make a puff of particles around the target to highlight it
                 highlight(currentTargetLocation);
                 break;
@@ -53,7 +53,7 @@ public class MovingTargetParticleGuide extends ParticleGuide {
             // This ensures that the player will always be able to see the guide, even when moving very fast
             Location nextParticleLocation = startLocation.clone().add(targetDirection.multiply(multiplier + movedTowardsTarget));
             spawnParticle(nextParticleLocation);
-            sleep(TIME_BETWEEN_PARTICLES_MS);
+            sleep(guides.particleDelay.get());
         }
     }
     

@@ -1,5 +1,6 @@
 package me.monst.survivalhaven.particle;
 
+import me.monst.survivalhaven.SurvivalHavenPlugin;
 import me.monst.survivalhaven.command.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -7,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class BreadcrumbsTrail extends ParticleGuide {
     private int permissionMax = calculateMaxLength();
     private boolean maxReached = false;
     
-    public BreadcrumbsTrail(Plugin plugin, Player player, Color color) {
+    public BreadcrumbsTrail(SurvivalHavenPlugin plugin, Player player, Color color) {
         super(plugin, player, color);
         this.breadcrumbList = new ArrayList<>();
         this.breadcrumbIndexMap = new HashMap<>();
@@ -87,7 +87,7 @@ public class BreadcrumbsTrail extends ParticleGuide {
             if (differentWorlds(player.getWorld(), breadcrumb.getWorld()))
                 continue;
             breadcrumb.spawnParticle();
-            sleep(TIME_BETWEEN_PARTICLES_MS);
+            sleep(guides.particleDelay.get());
         }
     }
     

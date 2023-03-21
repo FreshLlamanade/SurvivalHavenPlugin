@@ -58,6 +58,7 @@ public class SurvivalHavenConfigure implements Executable {
     
         String input = arg >= args.size() ? null : String.join(" ", args.subList(arg, args.size()));
     
+        plugin.config().load();
         String previousValue = configValue.toString();
     
         try {
@@ -79,6 +80,7 @@ public class SurvivalHavenConfigure implements Executable {
                 .toString());
         if (!configValue.isHotSwappable())
             sender.sendMessage(ChatColor.RED + "This change will not take effect until the server is restarted.");
+        plugin.config().save();
     }
     
     @Override

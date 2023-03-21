@@ -1,5 +1,7 @@
 package me.monst.survivalhaven.particle;
 
+import me.monst.survivalhaven.SurvivalHavenPlugin;
+import me.monst.survivalhaven.configuration.values.Guides;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -15,19 +17,16 @@ import java.util.Objects;
  */
 abstract class ParticleGuide implements Runnable {
     
-    static final int GUIDE_LENGTH = 10;
-    static final int TIME_BETWEEN_PARTICLES_MS = 50;
-    private static final int PARTICLE_COUNT = 5;
-    private static final int SLEEP_TIME_MS = 1500;
-    
     private final Plugin plugin;
+    protected final Guides guides;
     protected final Player player;
     private final Particle.DustOptions dustOptions;
     
     private boolean stopped;
     
-    ParticleGuide(Plugin plugin, Player player, Color color) {
+    ParticleGuide(SurvivalHavenPlugin plugin, Player player, Color color) {
         this.plugin = plugin;
+        this.guides = plugin.config().guides;
         this.player = player;
         this.dustOptions = new Particle.DustOptions(color, 1);
     }
@@ -37,7 +36,7 @@ abstract class ParticleGuide implements Runnable {
         stopped = false;
         while (!stopped && player.isOnline()) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, this::show);
-            sleep(SLEEP_TIME_MS);
+            sleep(guides.repeatDelay.get());
         }
         stopped = true;
     }
@@ -59,15 +58,11 @@ abstract class ParticleGuide implements Runnable {
     }
     
     void spawnParticle(Location location) {
-        player.spawnParticle(Particle.REDSTONE, location, PARTICLE_COUNT, dustOptions);
+        player.spawnParticle(Particle.REDSTONE, location, guides.guideDensity.get(), dustOptions);
     }
     
     void highlight(Location location) {
-        player.spawnParticle(Particle.REDSTONE, location, PARTICLE_COUNT * 4, 1, 1, 1, dustOptions);
-    }
-    
-    World getPlayerWorld() {
-        return player.getWorld();
+        player.spawnParticle(Particle.REDSTONE, location, guides.highlightDensity.get(), 1, 1, 1, dustOptions);
     }
     
     Location getPlayerLocation() {

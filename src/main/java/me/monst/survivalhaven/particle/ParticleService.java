@@ -4,14 +4,13 @@ import me.monst.survivalhaven.SurvivalHavenPlugin;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 import java.util.function.Supplier;
 
 public class ParticleService {
     
-    private final Plugin plugin;
+    private final SurvivalHavenPlugin plugin;
     private final Map<UUID, List<ParticleGuide>> playerGuideMap;
     private final Map<UUID, BreadcrumbsTrail> playerBreadcrumbsMap;
     
