@@ -41,7 +41,7 @@ public class BreadcrumbsCommand implements TopLevelDelegator {
     
     @Override
     public Permission getPermission() {
-        return PermissionLimit.of(Permissions.BREADCRUMBS.getPerm());
+        return Permissions.BREADCRUMBS;
     }
     
     @Override

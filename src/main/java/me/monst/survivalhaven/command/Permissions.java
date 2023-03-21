@@ -1,29 +1,25 @@
 package me.monst.survivalhaven.command;
 
 import me.monst.pluginutil.command.Permission;
-import org.bukkit.command.CommandSender;
+import me.monst.pluginutil.command.PermissionLimit;
 
-public enum Permissions implements Permission {
+public final class Permissions {
     
-    GUIDE,
-    GUIDE_DEATH,
-    GUIDE_PLAYER,
-    GUIDE_HOME,
-    BREADCRUMBS,
-    ADMIN;
+    public static final Permission GUIDE = permission("guide");
+    public static final Permission GUIDE_DEATH = permission("guide.death");
+    public static final Permission GUIDE_PLAYER = permission("guide.player");
+    public static final Permission GUIDE_HOME = permission("guide.home");
+    public static final PermissionLimit BREADCRUMBS = permissionLimit("breadcrumbs");
+    public static final Permission ADMIN = permission("admin");
     
-    private final String perm;
-    Permissions() {
-        this.perm = "survivalhaven." + name().toLowerCase().replace('_', '.');
+    private Permissions() {}
+    
+    private static Permission permission(String permission) {
+        return Permission.of("survivalhaven." + permission);
     }
     
-    public String getPerm() {
-        return perm;
-    }
-    
-    @Override
-    public boolean ownedBy(CommandSender commandSender) {
-        return commandSender.hasPermission(perm);
+    private static PermissionLimit permissionLimit(String permission) {
+        return PermissionLimit.of("survivalhaven." + permission);
     }
     
 }

@@ -1,6 +1,5 @@
 package me.monst.survivalhaven.particle;
 
-import me.monst.pluginutil.command.PermissionLimit;
 import me.monst.survivalhaven.command.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -14,8 +13,6 @@ import java.util.*;
 
 public class BreadcrumbsTrail extends ParticleGuide {
     
-    private static final PermissionLimit PERMISSION_LIMIT = PermissionLimit.of(Permissions.BREADCRUMBS.getPerm());
-
     private final List<Breadcrumb> breadcrumbList;
     private final Map<Breadcrumb, Integer> breadcrumbIndexMap;
     private int permissionMax = calculateMaxLength();
@@ -67,7 +64,7 @@ public class BreadcrumbsTrail extends ParticleGuide {
     }
     
     private int calculateMaxLength() {
-        return PERMISSION_LIMIT.getPermissionLimitInt(player).orElse(-1);
+        return Permissions.BREADCRUMBS.getPermissionLimitInt(player).orElse(-1);
     }
     
     private void dropBreadcrumb(Breadcrumb breadcrumb) {
