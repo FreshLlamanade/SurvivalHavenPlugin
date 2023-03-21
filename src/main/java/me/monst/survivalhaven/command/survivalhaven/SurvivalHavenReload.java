@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class SurvivalHavenReload implements Executable {
+class SurvivalHavenReload implements Executable {
     
     private final SurvivalHavenPlugin plugin;
     
@@ -34,7 +34,7 @@ public class SurvivalHavenReload implements Executable {
     
     @Override
     public Permission getPermission() {
-        return Permissions.ADMIN.or(Permission.OP);
+        return Permissions.ADMIN;
     }
     
     @Override

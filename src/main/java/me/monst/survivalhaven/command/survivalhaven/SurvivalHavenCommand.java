@@ -6,7 +6,6 @@ import me.monst.survivalhaven.SurvivalHavenPlugin;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SurvivalHavenCommand implements TopLevelDelegator {
@@ -18,8 +17,8 @@ public class SurvivalHavenCommand implements TopLevelDelegator {
         Stream.of(
                 new SurvivalHavenGitHub(),
                 new SurvivalHavenReload(plugin),
-                new SurvivalHavenUpdate(),
-                new SurvivalHavenConfigure(plugin)
+                new SurvivalHavenConfig(plugin.config()),
+                new SurvivalHavenUpdate()
         ).forEach(subCommand -> subCommands.put(subCommand.getName(), subCommand));
     }
     

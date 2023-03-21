@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class SurvivalHavenUpdate implements Executable {
+class SurvivalHavenUpdate implements Executable {
     
     @Override
     public String getName() {
@@ -27,7 +27,7 @@ public class SurvivalHavenUpdate implements Executable {
     
     @Override
     public Permission getPermission() {
-        return Permissions.ADMIN.or(Permission.OP);
+        return Permissions.ADMIN;
     }
     
     @Override
