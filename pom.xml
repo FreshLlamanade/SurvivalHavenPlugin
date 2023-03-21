@@ -5,8 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.monst</groupId>
-    <artifactId>survival-haven-plugin</artifactId>
-    <version>0.1.1</version>
+    <artifactId>survivalhaven</artifactId>
+    <version>1.0.3</version>
+
+    <name>SurvivalHavenPlugin</name>
+    <description>Custom Plugin for the Survival Haven Minecraft Server</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -16,6 +19,13 @@
         <paper.version>1.19.4-R0.1-SNAPSHOT</paper.version>
         <essentialsx.version>2.18.1</essentialsx.version>
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/FreshLlamanade/SurvivalHavenPlugin.git</connection>
+        <developerConnection>scm:git:git@github.com:FreshLlamanade/SurvivalHavenPlugin.git</developerConnection>
+        <url>https://github.com/FreshLlamanade/SurvivalHavenPlugin</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <repositories>
         <repository>
@@ -59,6 +69,14 @@
 
     <build>
         <finalName>SurvivalHavenPlugin</finalName>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

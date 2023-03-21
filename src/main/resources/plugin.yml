@@ -1,7 +1,7 @@
-name: SurvivalHavenPlugin
-main: me.monst.survivalhaven.SurvivalHavenPlugin
-version: 1.0.2
-api-version: 1.13
+name: ${project.name}
+version: ${project.version}
+main: ${project.groupId}.${project.artifactId}.SurvivalHavenPlugin
+api-version: 1.19
 softdepend:
   - Essentials
 
@@ -24,9 +24,24 @@ permissions:
     default: op
     children:
       survivalhaven.guide: true
+  survivalhaven.guide.*:
+    description: Allows a player full access to the /guide command
+    default: op
+    children:
+      survivalhaven.guide: true
+      survivalhaven.guide.death: true
+      survivalhaven.guide.player: true
+      survivalhaven.guide.home: true
   survivalhaven.breadcrumbs.*:
     description: Allows a player unlimited length access to the /breadcrumbs command
     default: op
   survivalhaven.admin:
     description: Allows a player to manage the plugin
     default: op
+  survivalhaven.*:
+    description: Allows a player full access to the plugin
+    default: op
+    children:
+      survivalhaven.guide.*: true
+      survivalhaven.breadcrumbs.*: true
+      survivalhaven.admin: true
