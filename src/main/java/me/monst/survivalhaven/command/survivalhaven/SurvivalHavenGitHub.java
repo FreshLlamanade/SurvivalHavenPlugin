@@ -1,6 +1,7 @@
 package me.monst.survivalhaven.command.survivalhaven;
 
 import me.monst.pluginutil.command.Executable;
+import me.monst.pluginutil.lang.ColorStringBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -25,7 +26,10 @@ public class SurvivalHavenGitHub implements Executable {
     
     @Override
     public void execute(CommandSender sender, List<String> args) {
-        sender.sendMessage(ChatColor.YELLOW + "Survival Haven Minecraft Plugin: https://github.com/FreshLlamanade/SurvivalHavenPlugin");
+        sender.sendMessage(new ColorStringBuilder()
+                .yellow("Survival Haven Minecraft Plugin on GitHub:").newLine()
+                .aqua().underline("https://github.com/FreshLlamanade/SurvivalHavenPlugin")
+                .toString());
     }
     
 }

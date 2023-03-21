@@ -6,7 +6,7 @@
 
     <groupId>me.monst</groupId>
     <artifactId>survivalhaven</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <name>SurvivalHavenPlugin</name>
     <description>Custom Plugin for the Survival Haven Minecraft Server</description>
@@ -18,6 +18,7 @@
 
         <paper.version>1.19.4-R0.1-SNAPSHOT</paper.version>
         <essentialsx.version>2.18.1</essentialsx.version>
+        <pluginutil.version>1.2.3</pluginutil.version>
     </properties>
 
     <scm>
@@ -42,7 +43,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <version>${paper.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -55,7 +56,7 @@
         <dependency>
             <groupId>me.monst</groupId>
             <artifactId>plugin-util</artifactId>
-            <version>1.2.0</version>
+            <version>${pluginutil.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -122,7 +123,7 @@
                         </goals>
                         <configuration>
                             <sourceFile>target/SurvivalHavenPlugin.jar</sourceFile>
-                            <destinationFile>C:\Users\Michael\Desktop\BuildTools\plugins\SurvivalHavenPlugin.jar</destinationFile>
+                            <destinationFile>C:\Users\Michael\Desktop\BuildTools\plugins\update\SurvivalHavenPlugin.jar</destinationFile>
                             <overWrite>true</overWrite>
                         </configuration>
                     </execution>
