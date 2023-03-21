@@ -18,7 +18,7 @@
 
         <paper.version>1.19.4-R0.1-SNAPSHOT</paper.version>
         <essentialsx.version>2.18.1</essentialsx.version>
-        <pluginutil.version>1.2.3</pluginutil.version>
+        <pluginutil.version>1.3.0</pluginutil.version>
     </properties>
 
     <scm>

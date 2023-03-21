@@ -4,11 +4,13 @@ import me.monst.pluginutil.configuration.ConfigurationValue;
 import me.monst.pluginutil.log.Debugger;
 import me.monst.survivalhaven.SurvivalHavenPlugin;
 import me.monst.survivalhaven.configuration.transform.BooleanTransformer;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class EnableDebugLog extends ConfigurationValue<Boolean> {
     
@@ -35,6 +37,11 @@ public class EnableDebugLog extends ConfigurationValue<Boolean> {
             plugin.log().severe("Failed to create debug file.");
             return Debugger.NO_OP;
         }
+    }
+    
+    @Override
+    public List<String> getTabCompletions(Player player, List<String> args) {
+        return List.of("true", "false");
     }
     
 }

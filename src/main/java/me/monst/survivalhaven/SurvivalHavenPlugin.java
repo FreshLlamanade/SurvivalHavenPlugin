@@ -3,7 +3,6 @@ package me.monst.survivalhaven;
 import com.earth2me.essentials.Essentials;
 import me.monst.pluginutil.command.CommandRegisterService;
 import me.monst.pluginutil.log.Debuggable;
-import me.monst.pluginutil.log.Debugger;
 import me.monst.pluginutil.log.PluginLogger;
 import me.monst.survivalhaven.command.survivalhaven.SurvivalHavenCommand;
 import me.monst.survivalhaven.configuration.Configuration;
