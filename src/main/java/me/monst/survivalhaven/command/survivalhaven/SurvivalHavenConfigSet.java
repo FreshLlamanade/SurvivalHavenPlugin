@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 class SurvivalHavenConfigSet implements Executable {
@@ -41,15 +42,12 @@ class SurvivalHavenConfigSet implements Executable {
     
     @Override
     public void execute(CommandSender sender, List<String> args) throws CommandExecutionException {
-        int arg = 0;
-        ConfigurationNode targetNode = config;
-        while (targetNode instanceof ConfigurationBranch && arg < args.size())
-            targetNode = ((ConfigurationBranch) targetNode).getChild(args.get(arg++));
-        String path = String.join(".", args.subList(0, arg));
+        ListIterator<String> iterator = args.listIterator();
+        ConfigurationNode targetNode = config.deepSearch(iterator);
+        String path = String.join(".", args.subList(0, iterator.nextIndex()));
+        
         if (!(targetNode instanceof ConfigurationValue<?> configValue))
             throw new CommandExecutionException(path + " is not a configuration value.");
-    
-        String input = arg >= args.size() ? null : String.join(" ", args.subList(arg, args.size()));
     
         boolean wasAutoSaveEnabled = config.autoSaveConfig.get();
         if (wasAutoSaveEnabled)
@@ -57,7 +55,8 @@ class SurvivalHavenConfigSet implements Executable {
         String previousValue = configValue.toString();
     
         try {
-            configValue.feed(input);
+            String input = String.join(" ", args.subList(iterator.nextIndex(), args.size()));
+            configValue.feed(input.isEmpty() ? null : input);
         } catch (ArgumentParseException e) {
             throw new CommandExecutionException(e.getMessage());
         }
@@ -75,27 +74,25 @@ class SurvivalHavenConfigSet implements Executable {
                 .toString());
         if (!configValue.isHotSwappable())
             sender.sendMessage(ChatColor.RED + "This change will not take effect until the server is restarted.");
-        if (config.autoSaveConfig.get())
+        if (config.autoSaveConfig.get()) // If auto-save is enabled, save the config.
             config.save();
-        else if (wasAutoSaveEnabled) // If auto-save was enabled before, but is now disabled, inform the user of how to manually save changes.
+        else if (wasAutoSaveEnabled) // If auto-save is disabled, but was enabled before, inform the user of how to manually save changes.
             sender.sendMessage(ChatColor.RED + "Auto-saving is disabled. Save changes with /survivalhaven config save.");
     }
     
     @Override
     public List<String> getTabCompletions(Player player, List<String> args) {
-        return getTabCompletions(config, player, args, 0);
-    }
-    
-    private List<String> getTabCompletions(ConfigurationBranch branch, Player player, List<String> args, int arg) {
-        if (arg >= args.size() - 1)
+        ListIterator<String> iterator = args.listIterator();
+        ConfigurationNode targetNode = config.deepSearch(iterator);
+        if (targetNode instanceof ConfigurationBranch branch) {
+            if (iterator.nextIndex() < args.size())
+                return Collections.emptyList();
+            String lastArg = args.get(args.size() - 1);
             return branch.getChildren().keySet().stream()
-                    .filter(name -> containsIgnoreCase(name, args.get(args.size() - 1)))
+                    .filter(child -> containsIgnoreCase(child, lastArg))
                     .collect(Collectors.toList());
-        ConfigurationNode node = branch.getChild(args.get(arg));
-        if (node instanceof ConfigurationBranch)
-            return getTabCompletions((ConfigurationBranch) node, player, args, arg + 1);
-        if (node instanceof ConfigurationValue)
-            return ((ConfigurationValue<?>) node).getTabCompletions(player, args);
+        } else if (targetNode instanceof ConfigurationValue<?> configValue)
+            return configValue.getTabCompletions(player, args.subList(iterator.nextIndex(), args.size()));
         return Collections.emptyList();
     }
     
