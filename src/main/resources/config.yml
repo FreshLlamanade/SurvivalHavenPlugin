@@ -1,3 +1,5 @@
 autoclicker-detection-click-threshold: 10
 autoclicker-detection-strictness-factor: 15
 autoclicker-detection-max-lenience-millis: 100
+autoclicker-detection-message: "&cYou might be using an auto-clicker, which is in violation of rule 2. 
+You have been teleported to spawn. Please use /back if this is in error."

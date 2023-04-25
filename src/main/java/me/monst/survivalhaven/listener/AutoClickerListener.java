@@ -26,7 +26,7 @@ public class AutoClickerListener implements Listener {
     
     private static class AutoClickerDetectedException extends Exception {}
     
-    private final Location spawnLocation = new Location(Bukkit.getWorld("world"),
+    private static final Location SPAWN_LOCATION = new Location(Bukkit.getWorld("world"),
             -78.25153419111425, 115.0,-119.29397814374092,
             2.099761962890625f, -0.598663330078125f);
 
@@ -62,11 +62,9 @@ public class AutoClickerListener implements Listener {
             // Uncomment for debugging
             // player.sendMessage(monitor.toString());
         } catch (AutoClickerDetectedException ex) {
-            player.teleport(spawnLocation);
+            player.teleport(SPAWN_LOCATION);
             
-            player.sendMessage(ChatColor.RED + "You might be using an auto-clicker, which is in violation of rule 2. "
-                    + "You have been teleported to spawn. "
-                    + "Please use /back if this is in error.");
+            player.sendMessage(plugin.config().detectionMessage.get());
             String logMessage = player.getName() + " clicked at a suspiciously regular interval and has been teleported to spawn.";
             plugin.getLogger().warning(logMessage);
             for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
