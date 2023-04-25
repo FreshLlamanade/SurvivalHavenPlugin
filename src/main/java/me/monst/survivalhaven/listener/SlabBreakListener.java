@@ -22,8 +22,9 @@ public class SlabBreakListener implements Listener {
         if (!player.isSneaking())
             return;
         Block block = e.getBlock();
-        if (!(block.getBlockData() instanceof Slab slab))
+        if (!(block.getBlockData() instanceof Slab))
             return;
+        Slab slab = (Slab) block.getBlockData();
         if (slab.getType() != DOUBLE)
             return;
         RayTraceResult rayTrace = block.rayTrace(

@@ -1,0 +1,3 @@
+autoclicker-detection-click-threshold: 10
+autoclicker-detection-strictness-factor: 15
+autoclicker-detection-max-lenience-millis: 100
