@@ -6,6 +6,7 @@ import me.monst.survivalhaven.configuration.Configuration;
 import me.monst.survivalhaven.listener.AutoClickerListener;
 import me.monst.survivalhaven.listener.DeathListener;
 import me.monst.survivalhaven.listener.SlabBreakListener;
+import me.monst.survivalhaven.listener.SpawnerEggClickListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SurvivalHavenPlugin extends JavaPlugin {
@@ -24,6 +25,7 @@ public class SurvivalHavenPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SlabBreakListener(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(), this);
         getServer().getPluginManager().registerEvents(new AutoClickerListener(this), this);
+        getServer().getPluginManager().registerEvents(new SpawnerEggClickListener(), this);
     }
     
     public Configuration config() {
