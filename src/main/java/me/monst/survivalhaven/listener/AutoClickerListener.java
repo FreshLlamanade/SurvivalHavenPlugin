@@ -5,7 +5,6 @@ import me.monst.survivalhaven.Permissions;
 import me.monst.survivalhaven.SurvivalHavenPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,10 +24,6 @@ import static org.bukkit.inventory.EquipmentSlot.OFF_HAND;
 public class AutoClickerListener implements Listener {
     
     private static class AutoClickerDetectedException extends Exception {}
-    
-    private static final Location SPAWN_LOCATION = new Location(Bukkit.getWorld("world"),
-            -78.25153419111425, 115.0,-119.29397814374092,
-            2.099761962890625f, -0.598663330078125f);
 
     private final SurvivalHavenPlugin plugin;
     private final Map<UUID, ClickMonitor> clickMonitors = new HashMap<>();
@@ -60,12 +55,12 @@ public class AutoClickerListener implements Listener {
             ClickMonitor monitor = clickMonitors.computeIfAbsent(player.getUniqueId(), uuid -> new ClickMonitor());
             monitor.recordClick();
             // Uncomment for debugging
-            // player.sendMessage(monitor.toString());
+//            player.sendMessage(monitor.toString());
         } catch (AutoClickerDetectedException ex) {
-            player.teleport(SPAWN_LOCATION);
+//            player.teleport(SPAWN_LOCATION);
+//            player.sendMessage(plugin.config().detectionMessage.get());
             
-            player.sendMessage(plugin.config().detectionMessage.get());
-            String logMessage = player.getName() + " clicked at a suspiciously regular interval and has been teleported to spawn.";
+            String logMessage = player.getName() + " clicked at a suspiciously regular interval.";
             plugin.getLogger().warning(logMessage);
             for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
                 if (Permissions.ADMIN.ownedBy(onlinePlayer)) {
@@ -82,7 +77,6 @@ public class AutoClickerListener implements Listener {
         private Integer observedError;
         
         private int counter = 0;
-        private boolean detected = false;
         
         void recordClick() throws AutoClickerDetectedException {
             long currentTime = System.currentTimeMillis();
@@ -110,7 +104,6 @@ public class AutoClickerListener implements Listener {
                 bestGuessInterval = msSinceLastClick;
                 detectionLenience = calculateLenience();
                 counter = 0;
-                detected = false;
                 return;
             }
             
@@ -120,10 +113,9 @@ public class AutoClickerListener implements Listener {
             bestGuessInterval = addToRunningAverage(msSinceLastClick);
             detectionLenience = calculateLenience(); // Update the detection lenience
             
-            // If the counter is above the threshold, we assume the player is using an auto-clicker
+            // If the counter a multiple of the threshold, we assume the player is using an auto-clicker
             // Do not throw the exception if the player has already been detected
-            if (!detected && counter >= plugin.config().clickThreshold.get()) {
-                detected = true;
+            if (counter % plugin.config().clickThreshold.get() == 0) {
                 throw new AutoClickerDetectedException();
             }
         }
@@ -134,6 +126,14 @@ public class AutoClickerListener implements Listener {
         
         private int calculateLenience() {
             return Math.min(bestGuessInterval / plugin.config().strictnessFactor.get(), plugin.config().maxLenience.get());
+        }
+        
+        private void reset() {
+            lastClickTime = null;
+            bestGuessInterval = null;
+            detectionLenience = null;
+            observedError = null;
+            counter = 0;
         }
         
         @Override
@@ -152,7 +152,7 @@ public class AutoClickerListener implements Listener {
         ClickMonitor monitor = clickMonitors.get(e.getPlayer().getUniqueId());
         if (monitor == null)
             return;
-        monitor.detected = false;
+        monitor.reset();
         // This makes sure that the player cannot simply walk back to where they were and continue using the auto-clicker,
         // as they will keep getting teleported back to spawn every time they move until turning it off.
     }

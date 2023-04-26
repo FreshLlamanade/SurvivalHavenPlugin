@@ -5,7 +5,6 @@ import me.monst.pluginutil.configuration.ConfigurationValue;
 import me.monst.pluginutil.configuration.YamlFile;
 import me.monst.survivalhaven.SurvivalHavenPlugin;
 import me.monst.survivalhaven.configuration.values.AutoClickerDetectionClickThreshold;
-import me.monst.survivalhaven.configuration.values.AutoClickerDetectionMessage;
 import me.monst.survivalhaven.configuration.values.AutoClickerDetectionStrictnessFactor;
 import me.monst.survivalhaven.configuration.values.AutoClickerDetectionMaxLenience;
 
@@ -16,8 +15,6 @@ public class Configuration extends ConfigurationBranch {
     public final ConfigurationValue<Integer> strictnessFactor = addChild(new AutoClickerDetectionStrictnessFactor());
     
     public final ConfigurationValue<Integer> maxLenience = addChild(new AutoClickerDetectionMaxLenience());
-    
-    public final ConfigurationValue<String> detectionMessage = addChild(new AutoClickerDetectionMessage());
     
     private final YamlFile file;
     

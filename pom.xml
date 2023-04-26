@@ -6,7 +6,7 @@
 
     <groupId>me.monst</groupId>
     <artifactId>survivalhaven</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 
     <name>SurvivalHavenPlugin</name>
     <description>Custom Plugin for the Survival Haven Minecraft Server</description>
